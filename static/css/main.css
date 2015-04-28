@@ -1,0 +1,18 @@
+@import url(http://fonts.googleapis.com/css?family=Ek+Mukta:300);
+
+body {
+    font-family: "Ek Mukta";
+    text-align: center;
+}
+
+h1 {
+    font-size: 48px;
+    font-weight: bold;
+    color: #1b1b1b !important;
+    margin: 0;
+}
+
+p {
+    font-size: 18px;
+    margin: 0 4px;
+}
