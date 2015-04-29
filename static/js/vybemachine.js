@@ -2,6 +2,7 @@ $(function() {
 
     var init = function() {
         var initDiv = $(document.getElementById('init'));
+        var mainDiv = $(document.getElementById('main'));
         soundManager.setup({url: 'static/swf/', onready: function() {
             soundManager.createSound({id: 'initSound', url: 'static/ogg/init.ogg', autoLoad: true, autoPlay: true, volume: 100});
         }});
@@ -13,10 +14,16 @@ $(function() {
             $(document.body).css('background-color', '#eee');
             setTimeout(function() {
                 initDiv.remove();
+                mainDiv.show();
+                mainDiv.fadeTo(1200, 1.0, postInit());
             }, 1200);
         }, 4850);
         
     };
+    
+    var postInit = function() {
+        
+    }
     
     init();
     
