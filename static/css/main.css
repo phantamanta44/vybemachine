@@ -52,8 +52,23 @@ h1 {
 }
 
 #albumart {
-    -webkit-filter: blur(8px);
+    position: fixed;
+    z-index: -666;
+    display: block;
+    background-image: url("../img/placeholder.png");
+    background-position: center;
+    background-size: contain;
     height: 100%;
+    width: 100%;
+    -webkit-filter: blur(24px);
+}
+
+#albumartfg {
+    position: fixed;
+    height: 100%;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
 }
 
 h2 {
