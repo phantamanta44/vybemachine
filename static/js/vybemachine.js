@@ -52,7 +52,7 @@ $(function() {
     }
     
     var randInt = function(min, max) {
-        return Math.random() * (max - min) + min;
+        return Math.floor(Math.random() * (max - min) + min);
     }
     
     var randSel = function(list) {
