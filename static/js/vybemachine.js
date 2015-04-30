@@ -39,7 +39,7 @@ $(function() {
                 setArtwork(tracks[t].artwork_url);
             }
             currentSound = SC.stream("/tracks/" + tracks[t].id, function(sound) {
-                sound.play({onfinish: {
+                sound.play({onfinish: function() {
                     randTrack();
                 }});
             });
