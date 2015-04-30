@@ -29,11 +29,7 @@ $(function() {
     }
     
     var postInit = function() {
-        while (true) {
-            if (currentSound == undefined || currentSound.playState == 0) {
-                randTrack();
-            }
-        }
+            randTrack();
     }
     
     var randTrack = function() {
@@ -43,7 +39,9 @@ $(function() {
                 setArtwork(tracks[t].artwork_url);
             }
             currentSound = SC.stream("/tracks/" + tracks[t].id, function(sound) {
-                sound.play();
+                sound.play({onfinish: {
+                    randTrack();
+                }});
             });
         });
     }
