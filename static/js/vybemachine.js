@@ -33,8 +33,8 @@ $(function() {
     }
     
     var randTrack = function() {
-        SC.get("/tracks", {tags: "edm", limit: 512, q: randSel(QUERY_VAL)}, function(tracks) {
-            var t = randInt(0, 512);
+        SC.get("/tracks", {tags: "edm", limit: 200, q: randSel(QUERY_VAL)}, function(tracks) {
+            var t = randInt(0, 200);
             if (tracks[t].artwork_url != null) {
                 setArtwork(tracks[t].artwork_url);
             }
