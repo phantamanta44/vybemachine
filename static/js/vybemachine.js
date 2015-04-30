@@ -45,7 +45,6 @@ $(function() {
             currentSound = SC.stream("/tracks/" + tracks[t].id, function(sound) {
                 sound.play();
             });
-            while (currentSound == undefined || currentSound.playState == 0) { }
         });
     }
     
