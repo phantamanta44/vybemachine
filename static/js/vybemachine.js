@@ -43,7 +43,7 @@ $(function() {
     var randTrack = function() {
         skipBtn.css('-webkit-filter', 'hue-rotate(' + randSel(HUE_WHEEL) + 'deg)');
         eqDiv.css('-webkit-filter', 'hue-rotate(' + randSel(HUE_WHEEL) + 'deg)');
-        SC.get("/tracks", {tags: "edm", limit: 200, filter: "public", q: randSel(QUERY_VAL)}, function(tracks) {
+        SC.get("/tracks", {tags: "edm", limit: 200, duration[to]: 390000, filter: "public", q: randSel(QUERY_VAL)}, function(tracks) {
             var t = randInt(0, 200);
             if (tracks[t].artwork_url != null) {
                 setArtwork(tracks[t].artwork_url.replace('large.jpg', 't500x500.jpg'));
