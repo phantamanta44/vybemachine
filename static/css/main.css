@@ -97,3 +97,27 @@ p {
 #skipbtn:hover {
     transform: scale(1.07);
 }
+
+#equalizer {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+}
+
+#equalizer div {
+    margin: 0;
+    position: absolute;
+    background-color: #0db;
+    width: 0.8%;
+    transition: all 0.1s;
+}
+
+.eq-top {
+    top: 0;
+}
+
+.eq-bot {
+    bottom: 0;
+}
