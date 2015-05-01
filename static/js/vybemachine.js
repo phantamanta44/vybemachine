@@ -72,7 +72,7 @@ $(function() {
     }
     
     var setArtwork = function(artUrl) {
-        artworkDiv.css('background-image', "url(" + artUrl + "deg)");
+        artworkDiv.css('background-image', "url(" + artUrl + ")");
         artworkImg.attr('src', artUrl);
     }
     
