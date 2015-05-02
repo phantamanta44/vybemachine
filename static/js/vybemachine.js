@@ -31,7 +31,7 @@ $(function() {
     var init = function() {
         initDiv.css('top', '-84%');
         initDiv.css('color', '#222');
-        $(document.getElementById('initimg')).css('-webkit-filter', 'invert(8%)');
+        setFilter($(document.getElementById('initimg')), 'invert(8%)');
         $(document.body).css('background-color', '#eee');
         setTimeout(function() {
             initDiv.remove();
@@ -46,8 +46,8 @@ $(function() {
     }
     
     var randTrack = function() {
-        skipBtn.css('-webkit-filter', 'hue-rotate(' + randSel(HUE_WHEEL) + 'deg)');
-        eqDiv.css('-webkit-filter', 'hue-rotate(' + randSel(HUE_WHEEL) + 'deg)');
+        setFilter(skipBtn, 'hue-rotate(' + randSel(HUE_WHEEL) + 'deg)');
+        setFilter(eqDiv, 'hue-rotate(' + randSel(HUE_WHEEL) + 'deg)');
         SC.get("/tracks", {tags: "edm", limit: 200, "duration[to]": 390000, filter: "public", q: randSel(QUERY_VAL)}, function(tracks) {
             var t = randInt(0, 200);
             if (tracks[t].artwork_url != null) {
@@ -109,6 +109,12 @@ $(function() {
                 pauseDiv.fadeTo(400, 1.0);
             }
         }
+    }
+    
+    var setFilter = function(obj, filter) {
+        obj.css('-webkit-filter', filter);
+        obj.css('-moz-filter', filter);
+        obj.css('filter', filter);
     }
     
     preInit();
