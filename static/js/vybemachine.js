@@ -3,8 +3,10 @@ $(function() {
     var initialized = false;
     var paused = false;
     var currentSound;
+    
     var QUERY_VAL = ["trap", "edm", "dubstep", "glitchhop", "dance", "trance", ""];
     var HUE_WHEEL = [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330];
+    var urlRegex = new RegExp('https?://.{0,}soundcloud\.com/.*');
     
     var eqTop = [];
     var eqBot = [];
@@ -45,8 +47,8 @@ $(function() {
     
     var postInit = function() {
         initialized = true;
-        if (hash != null) {
-        skipBtn.css('display', 'none');
+        if (hash.match(urlRegex)) {
+            skipBtn.css('display', 'none');
             playTrack(hash);
         }
         else {
