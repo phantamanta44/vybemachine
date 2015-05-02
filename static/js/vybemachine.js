@@ -15,7 +15,7 @@ $(function() {
     var pauseDiv = $(document.getElementById('pausescrn'));
     
     var preInit = function() {
-        soundManager.setup({url: 'static/swf/', flashVersion: 9, preferFlash: true, flashPollingInterval: 10, onready: function() {
+        soundManager.setup({url: 'static/swf/', flashVersion: 9, preferFlash: true, flashPollingInterval: 10, useHighPerformance: true, onready: function() {
             currentSound =  soundManager.createSound({id: 'initSound', url: 'static/ogg/init.ogg', autoLoad: true, autoPlay: true, volume: 100});
             SC.initialize({client_id: "19a6c5e98aef00b45ab6d1ebdf3ca361"});
             setTimeout(init, 4800);
@@ -69,7 +69,7 @@ $(function() {
             for (var i = 0; i < 128; i++) {
                 var topDiv = $(document.getElementById('eq-top-' + i));
                 var botDiv = $(document.getElementById('eq-bot-' + i));
-                topDiv.css('right', ((i * pos) - (pos / 2)) + 'px');
+                topDiv.css('right'  , ((i * pos) - (pos / 2)) + 'px');
                 topDiv.height(56 * left[256 - (i * 2)]);
                 botDiv.css('left', ((i * pos) + (pos / 2)) + 'px');
                 botDiv.height(56 * right[i * 2]);
