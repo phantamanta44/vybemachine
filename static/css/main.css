@@ -112,7 +112,6 @@ p {
     position: absolute;
     background-color: #0db;
     width: 0.6%;
-    transition: all 0.1s;
 }
 
 .eq-top {
