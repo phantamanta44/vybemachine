@@ -56,6 +56,8 @@ $(function() {
             currentSound = SC.stream("/tracks/" + tracks[t].id, function(sound) {
                 sound.play({onfinish: function() {this.destruct(); randTrack();}, onstop: function() {this.destruct(); randTrack();}, whileplaying: function() {updateEq(this); updateVol(this);}});
             });
+            document.title = tracks[t].user.username + " - " + tracks[t].title;
+            setTimeout(function() {document.title = "The Vybe Machine";}, 5000)
         });
     }
     
