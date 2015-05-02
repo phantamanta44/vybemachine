@@ -121,3 +121,53 @@ p {
 .eq-bot {
     bottom: 0;
 }
+
+#voldiv {
+    height: 232px;
+    width: 48px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto 0;
+    margin-left: -32px;
+    transition: all 0.8s;
+    background-color: rgba(0, 0, 0, 0.18);
+    border-top-right-radius: 16px;
+    border-bottom-right-radius: 16px;
+}
+
+#voldiv:hover {
+    margin-left: 0;
+}
+
+#volslider {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    width: 200px;
+    height: 4px;
+    transform: rotate(-90deg);
+    margin-left: -80px;
+    -webkit-appearance: none;
+}
+
+#volslider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    cursor: -webkit-grab;
+    width: 12px;
+    height: 12px;
+    background: #FFF;
+    border: solid 1px #EEE;
+    border-radius: 6px;
+    box-shadow: 0 0 12px 1px #0bd;
+    transition: box-shadow 0.2s;
+}
+
+#volslider:active::-webkit-slider-thumb {
+    cursor: -webkit-grabbing;
+    box-shadow: 0 0 24px 1px #0bd;
+}

@@ -49,7 +49,7 @@ $(function() {
                 setArtwork(tracks[t].artwork_url.replace('large.jpg', 't500x500.jpg'));
             }
             currentSound = SC.stream("/tracks/" + tracks[t].id, function(sound) {
-                sound.play({onfinish: function() {randTrack();}, onstop: function() {randTrack();}, whileplaying: function() {updateEq(this);}});
+                sound.play({onfinish: function() {randTrack();}, onstop: function() {randTrack();}, whileplaying: function() {updateEq(this); updateVol(this);}});
             });
         });
     }
@@ -86,4 +86,7 @@ $(function() {
     
     preInit();
     
+    var updateVol = function(theSound) {
+        theSound.setVolume(Math.floor(document.getElementById('volslider').value));
+    }
 });
