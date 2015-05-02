@@ -18,6 +18,7 @@ $(function() {
     var artworkImg = $(document.getElementById('albumartfg'));
     var skipBtn = $(document.getElementById('skipbtn'));
     var pauseDiv = $(document.getElementById('pausescrn'));
+    var hash = document.location.hash.replace('#', '');
     
     var preInit = function() {
         soundManager.setup({url: 'static/swf/', flashVersion: 9, preferFlash: true, flashPollingInterval: 10, useHighPerformance: true, onready: function() {
@@ -44,7 +45,13 @@ $(function() {
     
     var postInit = function() {
         initialized = true;
-        randTrack();
+        if (hash != null) {
+        skipBtn.css('display', 'none');
+            playTrack(hash);
+        }
+        else {
+            randTrack();
+        }
     }
     
     var randTrack = function() {
@@ -60,6 +67,26 @@ $(function() {
             });
             document.title = tracks[t].user.username + " - " + tracks[t].title;
             setTimeout(function() {document.title = "The Vybe Machine";}, 5000)
+        });
+    }
+    
+    var playTrack = function(uri) {
+        setFilter(skipBtn, 'hue-rotate(' + randSel(HUE_WHEEL) + 'deg)');
+        setFilter(eqDiv, 'hue-rotate(' + randSel(HUE_WHEEL) + 'deg)');
+        SC.get("/resolve.json", {url: uri}, function(resolved) {
+            if (resolved != null) {
+                var track = resolved;
+                if (track.artwork_url != null) {
+                    setArtwork(track.artwork_url.replace('large.jpg', 't500x500.jpg'));
+                }
+                currentSound = SC.stream("/tracks/" + track.id, function(sound) {
+                    sound.play({onfinish: function() {this.destruct(); mainDiv.fadeTo(1200, 0);}, onstop: function() {this.destruct(); mainDiv.fadeTo(1200, 0);}, whileplaying: function() {updateEq(this); updateVol(this);}});
+                });
+                document.title = track.user.username + " - " + track.title;
+            }
+            else {
+                alert('Could not find specified track ' + uri + '!');
+            }
         });
     }
     
