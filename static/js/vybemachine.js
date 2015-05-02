@@ -6,9 +6,14 @@ $(function() {
     var QUERY_VAL = ["trap", "edm", "dubstep", "glitchhop", "dance", "trance", ""];
     var HUE_WHEEL = [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330];
     
+    var eqTop = [];
+    var eqBot = [];
+    
+    var jDoc = $(document);
     var initDiv = $(document.getElementById('init'));
     var mainDiv = $(document.getElementById('main'));
     var eqDiv = $(document.getElementById('equalizer'));
+    var eqSvg = SVG('equalizer').size('100%', '100%');
     var artworkDiv = $(document.getElementById('albumart'));
     var artworkImg = $(document.getElementById('albumartfg'));
     var skipBtn = $(document.getElementById('skipbtn'));
@@ -21,10 +26,7 @@ $(function() {
             setTimeout(init, 4800);
         }});
         soundManager.flash9Options.useEQData = true;
-        for (var i = 0; i < 128; i++) {
-            eqDiv.append('<div class="eq-top" id="eq-top-' + i + '"></div>');
-            eqDiv.append('<div class="eq-bot" id="eq-bot-' + i + '"></div>');
-        }
+        prepareSvg();
         $(document).keypress(pauseMe);
     };
     
@@ -63,19 +65,27 @@ $(function() {
     
     var updateEq = function(theSound) {
         try {
-            var pos = $(document).width() / 128;
+            var w = jDoc.width();
+            var pos = w / 128;
+            var h = jDoc.height();
             var left = theSound.eqData.left;
             var right = theSound.eqData.right;
             for (var i = 0; i < 128; i++) {
-                var topDiv = $(document.getElementById('eq-top-' + i));
-                var botDiv = $(document.getElementById('eq-bot-' + i));
-                topDiv.css('right'  , ((i * pos) - (pos / 2)) + 'px');
-                topDiv.height(56 * left[256 - (i * 2)]);
-                botDiv.css('left', ((i * pos) + (pos / 2)) + 'px');
-                botDiv.height(56 * right[i * 2]);
+                eqTop[i].size(w * 0.006, 56 * left[256 - (i * 2)]).move(i * pos, 0);
+                eqBot[i].size(w * 0.006, 56 * right[i * 2]).move((i * pos) + (pos / 4), h - (56 * right[i * 2]));
             }
         }
-        catch (ex) { }
+        catch (ex) { console.log(ex); }
+    }
+    
+    var prepareSvg = function() {
+        var w = jDoc.width();
+        var pos = w / 128;
+        var h = jDoc.height();
+        for (var i = 0; i < 128; i++) {
+            eqTop[i] = eqSvg.rect(w * 0.006, 0).attr({fill: '#0db'}).move((i * pos) + (pos / 2), 0);
+            eqBot[i] = eqSvg.rect(w * 0.006, 0).attr({fill: '#0db'}).move((i * pos) + (pos / 2), h);
+        }
     }
     
     var setArtwork = function(artUrl) {

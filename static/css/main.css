@@ -113,20 +113,11 @@ p {
     left: 0;
 }
 
-#equalizer div {
-    margin: 0;
-    position: absolute;
-    background-color: #0db;
-    width: 0.6%;
-    transition: height 0.18s;
-}
-
-.eq-top {
-    top: 0;
-}
-
-.eq-bot {
-    bottom: 0;
+#equalizer svg {
+    position: fixed;
+    left: 0;
+    height: 100%;
+    width: 100%;
 }
 
 #voldiv {
