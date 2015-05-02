@@ -72,7 +72,6 @@ $(function() {
                 botDiv.css('left', ((i * pos) + (pos / 2)) + 'px');
                 botDiv.height(56 * right[i * 2]);
             }
-            console.log("rendered");
         }
         catch (ex) { }
     }
