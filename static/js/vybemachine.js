@@ -1,5 +1,7 @@
 $(function() {
     
+    var initialized = false;
+    var paused = false;
     var currentSound;
     var QUERY_VAL = ["trap", "edm", "dubstep", "glitchhop", "dance", "trance", ""];
     var HUE_WHEEL = [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330];
@@ -10,6 +12,7 @@ $(function() {
     var artworkDiv = $(document.getElementById('albumart'));
     var artworkImg = $(document.getElementById('albumartfg'));
     var skipBtn = $(document.getElementById('skipbtn'));
+    var pauseDiv = $(document.getElementById('pausescrn'));
     
     var preInit = function() {
         soundManager.setup({url: 'static/swf/', flashVersion: 9, preferFlash: true, flashPollingInterval: 10, onready: function() {
@@ -22,6 +25,7 @@ $(function() {
             eqDiv.append('<div class="eq-top" id="eq-top-' + i + '"></div>');
             eqDiv.append('<div class="eq-bot" id="eq-bot-' + i + '"></div>');
         }
+        $(document).keypress(pauseMe);
     };
     
     var init = function() {
@@ -37,7 +41,8 @@ $(function() {
     }
     
     var postInit = function() {
-            randTrack();
+        initialized = true;
+        randTrack();
     }
     
     var randTrack = function() {
@@ -67,6 +72,7 @@ $(function() {
                 botDiv.css('left', ((i * pos) + (pos / 2)) + 'px');
                 botDiv.height(56 * right[i * 2]);
             }
+            console.log("rendered");
         }
         catch (ex) { }
     }
@@ -84,9 +90,25 @@ $(function() {
         return list[Math.floor(Math.random() * list.length)]
     }
     
-    preInit();
-    
     var updateVol = function(theSound) {
         theSound.setVolume(Math.floor(document.getElementById('volslider').value));
     }
+    
+    var pauseMe = function(event) {
+        if (initialized && event.keyCode == 32) {
+            if (paused) {
+                soundManager.resumeAll();
+                paused = false;
+                pauseDiv.fadeTo(400, 0, function() {pauseDiv.css('display', 'none');});
+            }
+            else {
+                soundManager.pauseAll();
+                paused = true;
+                pauseDiv.css('display', 'block');
+                pauseDiv.fadeTo(400, 1.0);
+            }
+        }
+    }
+    
+    preInit();
 });
