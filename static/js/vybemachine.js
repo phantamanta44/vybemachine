@@ -49,7 +49,7 @@ $(function() {
                 setArtwork(tracks[t].artwork_url.replace('large.jpg', 't500x500.jpg'));
             }
             currentSound = SC.stream("/tracks/" + tracks[t].id, function(sound) {
-                sound.play({onfinish: function() {randTrack();}, onstop: function() {randTrack();}, whileplaying: function() {updateEq(this); updateVol(this);}});
+                sound.play({onfinish: function() {this.destruct(); randTrack();}, onstop: function() {this.destruct(); randTrack();}, whileplaying: function() {updateEq(this); updateVol(this);}});
             });
         });
     }
