@@ -3,7 +3,6 @@ $(function() {
     var initialized = false;
     var paused = false;
     var currentSound;
-    var retryAttempts = 0;
     
     var QUERY_VAL = ["trap", "edm", "dubstep", "glitchhop", "dance", "trance", ""];
     var QUERY_TAG = "edm";
@@ -80,8 +79,7 @@ $(function() {
                 setArtwork(tracks[t].artwork_url.replace('large.jpg', 't500x500.jpg'));
             }
             else {
-                setArtwork('static/img/placeholder.png');
-                setTimeout(function() {retryArtworkUpdate(tracks[t]);}, 1000);
+                setTimeout(function() {retryArtworkUpdate(tracks[t]);}, 10000);
             }
             currentSound = SC.stream("/tracks/" + tracks[t].id, function(sound) {
                 sound.play({onfinish: function() {this.destruct(); randTrack();}, onstop: function() {this.destruct(); randTrack();}, whileplaying: function() {updateEq(this); updateVol(this);}});
@@ -102,8 +100,7 @@ $(function() {
                     setArtwork(track.artwork_url.replace('large.jpg', 't500x500.jpg'));
                 }
                 else {
-                    setArtwork('static/img/placeholder.png');
-                    setTimeout(function() {retryArtworkUpdate(track);}, 1000);
+                    setTimeout(function() {retryArtworkUpdate(track);}, 10000);
                 }
                 currentSound = SC.stream("/tracks/" + track.id, function(sound) {
                     sound.play({onfinish: function() {this.destruct(); mainDiv.fadeTo(1200, 0);}, onstop: function() {this.destruct(); mainDiv.fadeTo(1200, 0);}, whileplaying: function() {updateEq(this); updateVol(this);}});
@@ -176,14 +173,8 @@ $(function() {
     }
     
     var retryArtworkUpdate(track) {
-        retryAttempts++;
         if (track.artwork_url != null) {
             setArtwork(track.artwork_url.replace('large.jpg', 't500x500.jpg'));
-        }
-        else {
-            if (retryAttempts <= 3) {
-                setTimeout(function() {retryArtworkUpdate(track);}, 1000);
-            }
         }
     }
     
