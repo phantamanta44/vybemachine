@@ -199,3 +199,15 @@ p {
     bottom: 0;
     margin: auto;
 }
+
+#setupbtn {
+    position: fixed;
+    width: 24px;
+    top: 6px;
+    left: 6px;
+    opacity: 0.18;
+}
+
+#setupbtn:hover {
+    opacity: 0.28;
+}

@@ -5,6 +5,7 @@ $(function() {
     var currentSound;
     
     var QUERY_VAL = ["trap", "edm", "dubstep", "glitchhop", "dance", "trance", ""];
+    var QUERY_TAG = "edm";
     var HUE_WHEEL = [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330];
     var urlRegex = new RegExp('https?://.{0,}soundcloud\.com/.*');
     
@@ -20,6 +21,7 @@ $(function() {
     var artworkImg = $(document.getElementById('albumartfg'));
     var trackLink = $(document.getElementById('sclink'));
     var skipBtn = $(document.getElementById('skipbtn'));
+    var setupBtn = $(document.getElementById('setupbtn'));
     var pauseDiv = $(document.getElementById('pausescrn'));
     var hash = document.location.hash.replace('#', '');
     
@@ -32,6 +34,7 @@ $(function() {
         soundManager.flash9Options.useEQData = true;
         prepareSvg();
         $(document).keypress(pauseMe);
+        setupBtn.click(showSetup);
     };
     
     var init = function() {
@@ -60,8 +63,8 @@ $(function() {
     var randTrack = function() {
         setFilter(skipBtn, 'hue-rotate(' + randSel(HUE_WHEEL) + 'deg)');
         setFilter(eqDiv, 'hue-rotate(' + randSel(HUE_WHEEL) + 'deg)');
-        SC.get("/tracks", {tags: "edm", limit: 200, "duration[to]": 390000, filter: "public", q: randSel(QUERY_VAL)}, function(tracks) {
-            var t = randInt(0, 200);
+        SC.get("/tracks", {tags: QUERY_TAG, limit: 200, "duration[to]": 390000, filter: "public", q: randSel(QUERY_VAL)}, function(tracks) {
+            var t = randInt(0, tracks.length);
             if (tracks[t].artwork_url != null) {
                 setArtwork(tracks[t].artwork_url.replace('large.jpg', 't500x500.jpg'));
             }
@@ -150,6 +153,32 @@ $(function() {
                 pauseDiv.css('display', 'block');
                 pauseDiv.fadeTo(400, 1.0);
             }
+        }
+    }
+    
+    var showSetup = function() {
+        if (initialized) {
+            var curTags = "";
+            for (var i = 0; i < QUERY_VAL.length; i++) {
+                if (QUERY_VAL[i].trim() != '') {
+                    curTags += QUERY_VAL[i];
+                    if (i != QUERY_VAL.length - 1) {
+                        curTags += ',';
+                    }
+                }
+            }
+            var tagStr = prompt('Input a comma-separated list of search queries.', curTags);
+            if (tagStr == null) {
+                return;
+            }
+            var tagList = tagStr.split(',');
+            QUERY_TAG = "";
+            QUERY_VAL = [];
+            for (var i = 0; i < tagList.length; i++) {
+                QUERY_VAL[i] = tagList[i].trim();
+            }
+            QUERY_VAL[tagList.length] = "";
+            soundManager.stopAll();
         }
     }
     
