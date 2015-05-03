@@ -31,13 +31,19 @@ $(function() {
     
     var preInit = function() {
         isMobile = mobTest.any();
-        soundManager.flash9Options.useEQData = true;
+        if (!isMobile) {
+            soundManager.flashVersion = 9;
+            soundManager.preferFlash = true;
+            soundManager.flashPollingInterval = 10;
+            soundManager.useHighPerformance = true;
+            soundManager.flash9Options.useEQData = true;
+        }
         isSingleTrack = hash.match(urlRegex);
         if (isSingleTrack || isMobile) {
             initDiv.remove();
         }
         prepareSvg();  
-        soundManager.setup({url: 'static/swf/', flashVersion: 9, preferFlash: true, flashPollingInterval: 10, useHighPerformance: true, onready: function() {
+        soundManager.setup({url: 'static/swf/',  onready: function() {
             if (!isSingleTrack && !isMobile) {
                 soundManager.createSound({id: 'initSound', url: 'static/ogg/init.ogg', autoLoad: true, autoPlay: true, volume: 100});
             }
