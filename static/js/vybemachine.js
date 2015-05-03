@@ -3,6 +3,7 @@ $(function() {
     var initialized = false;
     var paused = false;
     var currentSound;
+    var retryAttempts = 0;
     
     var QUERY_VAL = ["trap", "edm", "dubstep", "glitchhop", "dance", "trance", ""];
     var QUERY_TAG = "edm";
@@ -70,6 +71,7 @@ $(function() {
     }
     
     var randTrack = function() {
+        retryAttempts = 0;
         setFilter(skipBtn, 'hue-rotate(' + randSel(HUE_WHEEL) + 'deg)');
         setFilter(eqDiv, 'hue-rotate(' + randSel(HUE_WHEEL) + 'deg)');
         SC.get("/tracks", {tags: QUERY_TAG, limit: 200, "duration[to]": 390000, filter: "public", q: randSel(QUERY_VAL)}, function(tracks) {
@@ -79,6 +81,7 @@ $(function() {
             }
             else {
                 setArtwork('static/img/placeholder.png');
+                setTimeout(function() {retryArtworkUpdate(tracks[t]);}, 1000);
             }
             currentSound = SC.stream("/tracks/" + tracks[t].id, function(sound) {
                 sound.play({onfinish: function() {this.destruct(); randTrack();}, onstop: function() {this.destruct(); randTrack();}, whileplaying: function() {updateEq(this); updateVol(this);}});
@@ -100,6 +103,7 @@ $(function() {
                 }
                 else {
                     setArtwork('static/img/placeholder.png');
+                    setTimeout(function() {retryArtworkUpdate(track);}, 1000);
                 }
                 currentSound = SC.stream("/tracks/" + track.id, function(sound) {
                     sound.play({onfinish: function() {this.destruct(); mainDiv.fadeTo(1200, 0);}, onstop: function() {this.destruct(); mainDiv.fadeTo(1200, 0);}, whileplaying: function() {updateEq(this); updateVol(this);}});
@@ -167,6 +171,18 @@ $(function() {
                 paused = true;
                 pauseDiv.css('display', 'block');
                 pauseDiv.fadeTo(400, 1.0);
+            }
+        }
+    }
+    
+    var retryArtworkUpdate(track) {
+        retryAttempts++;
+        if (track.artwork_url != null) {
+            setArtwork(track.artwork_url.replace('large.jpg', 't500x500.jpg'));
+        }
+        else {
+            if (retryAttempts <= 3) {
+                setTimeout(function() {retryArtworkUpdate(track);}, 1000);
             }
         }
     }
