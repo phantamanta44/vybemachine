@@ -18,6 +18,7 @@ $(function() {
     var eqSvg = SVG('equalizer').size('100%', '100%');
     var artworkDiv = $(document.getElementById('albumart'));
     var artworkImg = $(document.getElementById('albumartfg'));
+    var trackLink = $(document.getElementById('sclink'));
     var skipBtn = $(document.getElementById('skipbtn'));
     var pauseDiv = $(document.getElementById('pausescrn'));
     var hash = document.location.hash.replace('#', '');
@@ -67,6 +68,7 @@ $(function() {
             currentSound = SC.stream("/tracks/" + tracks[t].id, function(sound) {
                 sound.play({onfinish: function() {this.destruct(); randTrack();}, onstop: function() {this.destruct(); randTrack();}, whileplaying: function() {updateEq(this); updateVol(this);}});
             });
+            trackLink.attr('href', tracks[t].permalink_url);
             document.title = tracks[t].user.username + " - " + tracks[t].title;
             setTimeout(function() {document.title = "The Vybe Machine";}, 5000)
         });
@@ -84,6 +86,7 @@ $(function() {
                 currentSound = SC.stream("/tracks/" + track.id, function(sound) {
                     sound.play({onfinish: function() {this.destruct(); mainDiv.fadeTo(1200, 0);}, onstop: function() {this.destruct(); mainDiv.fadeTo(1200, 0);}, whileplaying: function() {updateEq(this); updateVol(this);}});
                 });
+                trackLink.attr('href', tracks[t].permalink_url);
                 document.title = track.user.username + " - " + track.title;
             }
             else {
