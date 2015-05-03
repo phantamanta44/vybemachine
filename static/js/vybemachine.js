@@ -3,6 +3,7 @@ $(function() {
     var isSingleTrack = false;
     var initialized = false;
     var paused = false;
+    var isMobile = false;
     var currentSound;
     
     var QUERY_VAL = ["trap", "edm", "dubstep", "glitchhop", "dance", "trance", ""];
@@ -29,24 +30,30 @@ $(function() {
     var hash = document.location.hash.replace('#', '');
     
     var preInit = function() {
+        isMobile = mobTest.any();
         soundManager.flash9Options.useEQData = true;
         isSingleTrack = hash.match(urlRegex);
-        if (isSingleTrack) {
+        if (isSingleTrack || isMobile) {
             initDiv.remove();
         }
         prepareSvg();  
         soundManager.setup({url: 'static/swf/', flashVersion: 9, preferFlash: true, flashPollingInterval: 10, useHighPerformance: true, onready: function() {
-            if (!isSingleTrack) {
+            if (!isSingleTrack && !isMobile) {
                 soundManager.createSound({id: 'initSound', url: 'static/ogg/init.ogg', autoLoad: true, autoPlay: true, volume: 100});
             }
             SC.initialize({client_id: "19a6c5e98aef00b45ab6d1ebdf3ca361"});
-            if (!isSingleTrack) {
+            if (!isSingleTrack && !isMobile) {
                 setTimeout(init, 4800);
             }
             else {
                 quickInit();
             }
         }});
+        if (isMobile) {
+            setupBtn.css('display', 'none');
+            immrBtn.css('display', 'none');
+            patrBtn.css('display', 'none');
+        }
         $(document).keypress(pauseMe);
         setupBtn.click(showSetup);
     };
@@ -90,7 +97,6 @@ $(function() {
     }
     
     var randTrack = function() {
-        retryAttempts = 0;
         setFilter(skipBtn, 'hue-rotate(' + randSel(HUE_WHEEL) + 'deg)');
         setFilter(eqDiv, 'hue-rotate(' + randSel(HUE_WHEEL) + 'deg)');
         SC.get("/tracks", {tags: QUERY_TAG, limit: 200, "duration[to]": 390000, filter: "public", q: randSel(QUERY_VAL)}, function(tracks) {
@@ -105,6 +111,8 @@ $(function() {
                 sound.play({onfinish: function() {this.destruct(); randTrack();}, onstop: function() {this.destruct(); randTrack();}, whileplaying: function() {updateEq(this); updateVol(this);}});
             });
             trackLink.attr('href', tracks[t].permalink_url);
+            if (isMobile)
+                soundManager.play(currentSound ,{onfinish: function() {this.destruct(); randTrack();}, onstop: function() {this.destruct(); randTrack();}, whileplaying: function() {updateEq(this); updateVol(this);}})
             document.title = tracks[t].user.username + " - " + tracks[t].title;
             setTimeout(function() {document.title = "The Vybe Machine";}, 5000)
         });
@@ -125,6 +133,8 @@ $(function() {
                 currentSound = SC.stream("/tracks/" + track.id, function(sound) {
                     sound.play({onfinish: function() {this.destruct(); mainDiv.fadeTo(1200, 0);}, onstop: function() {this.destruct(); mainDiv.fadeTo(1200, 0);}, whileplaying: function() {updateEq(this); updateVol(this);}});
                 });
+                if (isMobile)
+                soundManager.play(currentSound ,{onfinish: function() {this.destruct(); randTrack();}, onstop: function() {this.destruct(); randTrack();}, whileplaying: function() {updateEq(this); updateVol(this);}})
                 trackLink.attr('href', track.permalink_url);
                 document.title = track.user.username + " - " + track.title;
             }
@@ -242,21 +252,26 @@ $(function() {
         obj.css('filter', filter);
     }
     
-    var flashSupported = function() {
-        var hasFlash = false;
-        try {
-            var flashObj = new ActiveXObject('ShockwaveFlash.ShockwaveFlash');
-            if (flashObj) {
-                hasFlash = true;
-            }
+    var mobTest = {
+        Android: function() {
+            return navigator.userAgent.match(/Android/i);
+        },
+        BlackBerry: function() {
+            return navigator.userAgent.match(/BlackBerry/i);
+        },
+        iOS: function() {
+            return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+        },
+        Opera: function() {
+            return navigator.userAgent.match(/Opera Mini/i);
+        },
+        Windows: function() {
+            return navigator.userAgent.match(/IEMobile/i);
+        },
+        any: function() {
+            return (mobTest.Android() || mobTest.BlackBerry() || mobTest.iOS() || mobTest.Opera() || mobTest.Windows());
         }
-        catch (ex) {
-            if (navigator.mimeTypes["application/x-shockwave-flash"] != undefined) {
-                hasFlash = true;
-            }
-        }
-        return hasFlash;
-    }
+    };
     
     preInit();
 });
