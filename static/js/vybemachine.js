@@ -79,7 +79,7 @@ $(function() {
                 setArtwork(tracks[t].artwork_url.replace('large.jpg', 't500x500.jpg'));
             }
             else {
-                setTimeout(function() {retryArtworkUpdate(tracks[t]);}, 10000);
+                setTimeout(function() {retryArtworkUpdate(tracks[t]);}, 3000);
             }
             currentSound = SC.stream("/tracks/" + tracks[t].id, function(sound) {
                 sound.play({onfinish: function() {this.destruct(); randTrack();}, onstop: function() {this.destruct(); randTrack();}, whileplaying: function() {updateEq(this); updateVol(this);}});
@@ -100,7 +100,7 @@ $(function() {
                     setArtwork(track.artwork_url.replace('large.jpg', 't500x500.jpg'));
                 }
                 else {
-                    setTimeout(function() {retryArtworkUpdate(track);}, 10000);
+                    setTimeout(function() {retryArtworkUpdate(track);}, 3000);
                 }
                 currentSound = SC.stream("/tracks/" + track.id, function(sound) {
                     sound.play({onfinish: function() {this.destruct(); mainDiv.fadeTo(1200, 0);}, onstop: function() {this.destruct(); mainDiv.fadeTo(1200, 0);}, whileplaying: function() {updateEq(this); updateVol(this);}});
@@ -172,13 +172,15 @@ $(function() {
         }
     }
     
-    var retryArtworkUpdate = function(track) {
-        if (track.artwork_url != null) {
-            setArtwork(track.artwork_url.replace('large.jpg', 't500x500.jpg'));
-        }
-        else {
-            setArtwork('static/img/placeholder.png');
-        }
+    var retryArtworkUpdate = function(oTrack) {
+        SC.get(oTrack.uri, function(track) {
+            if (track.artwork_url != null) {
+                setArtwork(track.artwork_url.replace('large.jpg', 't500x500.jpg'));
+            }
+            else {
+                setArtwork('static/img/placeholder.png');
+            }
+        });
     }
     
     var showSetup = function() {
