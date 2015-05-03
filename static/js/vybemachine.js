@@ -30,7 +30,6 @@ $(function() {
     
     var preInit = function() {
         soundManager.flash9Options.useEQData = true;
-        soundManager.useHTML5Audio = !flashSupported();
         isSingleTrack = hash.match(urlRegex);
         if (isSingleTrack) {
             initDiv.remove();
@@ -38,7 +37,7 @@ $(function() {
         prepareSvg();  
         soundManager.setup({url: 'static/swf/', flashVersion: 9, preferFlash: true, flashPollingInterval: 10, useHighPerformance: true, onready: function() {
             if (!isSingleTrack) {
-                currentSound =  soundManager.createSound({id: 'initSound', url: 'static/ogg/init.ogg', autoLoad: true, autoPlay: true, volume: 100});
+                soundManager.createSound({id: 'initSound', url: 'static/ogg/init.ogg', autoLoad: true, autoPlay: true, volume: 100});
             }
             SC.initialize({client_id: "19a6c5e98aef00b45ab6d1ebdf3ca361"});
             if (!isSingleTrack) {
