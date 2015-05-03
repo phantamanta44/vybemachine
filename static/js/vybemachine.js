@@ -33,7 +33,9 @@ $(function() {
         if (isSingleTrack) {
             initDiv.remove();
         }
+        prepareSvg();
         soundManager.setup({url: 'static/swf/', flashVersion: 9, preferFlash: true, flashPollingInterval: 10, useHighPerformance: true, onready: function() {
+            soundManager.flash9Options.useEQData = true;
             if (!isSingleTrack) {
                 currentSound =  soundManager.createSound({id: 'initSound', url: 'static/ogg/init.ogg', autoLoad: true, autoPlay: true, volume: 100});
             }
@@ -45,8 +47,6 @@ $(function() {
                 quickInit();
             }
         }});
-        soundManager.flash9Options.useEQData = true;
-        prepareSvg();
         $(document).keypress(pauseMe);
         setupBtn.click(showSetup);
     };
