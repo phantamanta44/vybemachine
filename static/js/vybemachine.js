@@ -176,6 +176,9 @@ $(function() {
         if (track.artwork_url != null) {
             setArtwork(track.artwork_url.replace('large.jpg', 't500x500.jpg'));
         }
+        else {
+            setArtwork('static/img/placeholder.png');
+        }
     }
     
     var showSetup = function() {
