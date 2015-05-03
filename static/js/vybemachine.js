@@ -56,6 +56,15 @@ $(function() {
             playTrack(hash);
         }
         else {
+            if(!!hash) {
+                var tagList = hash.split(',');
+                QUERY_TAG = "";
+                QUERY_VAL = [];
+                for (var i = 0; i < tagList.length; i++) {
+                    QUERY_VAL[i] = tagList[i].trim();
+                }
+                QUERY_VAL[tagList.length] = "";
+            }
             randTrack();
         }
     }
