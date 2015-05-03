@@ -1,5 +1,6 @@
 $(function() {
     
+    var isSingleTrack = false;
     var initialized = false;
     var paused = false;
     var currentSound;
@@ -28,10 +29,21 @@ $(function() {
     var hash = document.location.hash.replace('#', '');
     
     var preInit = function() {
+        isSingleTrack = hash.match(urlRegex);
+        if (isSingleTrack) {
+            initDiv.remove();
+        }
         soundManager.setup({url: 'static/swf/', flashVersion: 9, preferFlash: true, flashPollingInterval: 10, useHighPerformance: true, onready: function() {
-            currentSound =  soundManager.createSound({id: 'initSound', url: 'static/ogg/init.ogg', autoLoad: true, autoPlay: true, volume: 100});
+            if (!isSingleTrack) {
+                currentSound =  soundManager.createSound({id: 'initSound', url: 'static/ogg/init.ogg', autoLoad: true, autoPlay: true, volume: 100});
+            }
             SC.initialize({client_id: "19a6c5e98aef00b45ab6d1ebdf3ca361"});
-            setTimeout(init, 4800);
+            if (!isSingleTrack) {
+                setTimeout(init, 4800);
+            }
+            else {
+                quickInit();
+            }
         }});
         soundManager.flash9Options.useEQData = true;
         prepareSvg();
@@ -51,9 +63,15 @@ $(function() {
         }, 1200);
     }
     
+    var quickInit = function() {
+        $(document.body).css('background-color', 'rgba(0, 0, 0, 0.1)');
+        mainDiv.show();
+        mainDiv.fadeTo(1200, 1.0, postInit());
+    }
+    
     var postInit = function() {
         initialized = true;
-        if (hash.match(urlRegex)) {
+        if (isSingleTrack) {
             disableRand();
             playTrack(hash);
         }
