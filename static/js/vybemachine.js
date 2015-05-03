@@ -86,7 +86,7 @@ $(function() {
                 currentSound = SC.stream("/tracks/" + track.id, function(sound) {
                     sound.play({onfinish: function() {this.destruct(); mainDiv.fadeTo(1200, 0);}, onstop: function() {this.destruct(); mainDiv.fadeTo(1200, 0);}, whileplaying: function() {updateEq(this); updateVol(this);}});
                 });
-                trackLink.attr('href', tracks[t].permalink_url);
+                trackLink.attr('href', track.permalink_url);
                 document.title = track.user.username + " - " + track.title;
             }
             else {
