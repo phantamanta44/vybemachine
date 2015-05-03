@@ -29,13 +29,14 @@ $(function() {
     var hash = document.location.hash.replace('#', '');
     
     var preInit = function() {
+        soundManager.flash9Options.useEQData = true;
+        soundManager.useHTML5Audio = !flashSupported();
         isSingleTrack = hash.match(urlRegex);
         if (isSingleTrack) {
             initDiv.remove();
         }
-        prepareSvg();
+        prepareSvg();  
         soundManager.setup({url: 'static/swf/', flashVersion: 9, preferFlash: true, flashPollingInterval: 10, useHighPerformance: true, onready: function() {
-            soundManager.flash9Options.useEQData = true;
             if (!isSingleTrack) {
                 currentSound =  soundManager.createSound({id: 'initSound', url: 'static/ogg/init.ogg', autoLoad: true, autoPlay: true, volume: 100});
             }
@@ -240,6 +241,22 @@ $(function() {
         obj.css('-webkit-filter', filter);
         obj.css('-moz-filter', filter);
         obj.css('filter', filter);
+    }
+    
+    var flashSupported = function() {
+        var hasFlash = false;
+        try {
+            var flashObj = new ActiveXObject('ShockwaveFlash.ShockwaveFlash');
+            if (flashObj) {
+                hasFlash = true;
+            }
+        }
+        catch (ex) {
+            if (navigator.mimeTypes["application/x-shockwave-flash"] != undefined) {
+                hasFlash = true;
+            }
+        }
+        return hasFlash;
     }
     
     preInit();
