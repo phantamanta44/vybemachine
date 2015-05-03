@@ -204,6 +204,7 @@ $(function() {
                 eqTop[i].size(w * 0.006, 56 * left[256 - (i * 2)]).move(i * pos, 0);
                 eqBot[i].size(w * 0.006, 56 * right[i * 2]).move((i * pos) + (pos / 4), h - (56 * right[i * 2]));
             }
+            setFilter(artworkDiv, 'blur(' + (24 + (Math.floor(7 * left[0]))) + 'px)');
         }
         catch (ex) { console.log(ex); }
     }
