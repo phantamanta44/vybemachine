@@ -172,7 +172,7 @@ $(function() {
         }
     }
     
-    var retryArtworkUpdate(track) {
+    var retryArtworkUpdate = function(track) {
         if (track.artwork_url != null) {
             setArtwork(track.artwork_url.replace('large.jpg', 't500x500.jpg'));
         }
