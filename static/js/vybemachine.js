@@ -22,6 +22,7 @@ $(function() {
     var trackLink = $(document.getElementById('sclink'));
     var skipBtn = $(document.getElementById('skipbtn'));
     var setupBtn = $(document.getElementById('setupbtn'));
+    var patrBtn = $(document.getElementById('patreonbtn'));
     var pauseDiv = $(document.getElementById('pausescrn'));
     var hash = document.location.hash.replace('#', '');
     
@@ -52,7 +53,7 @@ $(function() {
     var postInit = function() {
         initialized = true;
         if (hash.match(urlRegex)) {
-            skipBtn.css('display', 'none');
+            disableRand();
             playTrack(hash);
         }
         else {
@@ -207,6 +208,12 @@ $(function() {
             QUERY_VAL[tagList.length] = "";
             soundManager.stopAll();
         }
+    }
+    
+    var disableRand = function() {
+        skipBtn.css('display', 'none');
+        setupBtn.css('display', 'none');
+        patrBtn.css('left', '6px');
     }
     
     var setFilter = function(obj, filter) {
