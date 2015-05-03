@@ -23,6 +23,7 @@ $(function() {
     var skipBtn = $(document.getElementById('skipbtn'));
     var setupBtn = $(document.getElementById('setupbtn'));
     var patrBtn = $(document.getElementById('patreonbtn'));
+    var immrBtn = $(document.getElementById('immersebtn'));
     var pauseDiv = $(document.getElementById('pausescrn'));
     var hash = document.location.hash.replace('#', '');
     
@@ -42,7 +43,7 @@ $(function() {
         initDiv.css('top', '-84%');
         initDiv.css('color', '#222');
         setFilter($(document.getElementById('initimg')), 'invert(8%)');
-        $(document.body).css('background-color', '#eee');
+        $(document.body).css('background-color', 'rgba(0, 0, 0, 0.1)');
         setTimeout(function() {
             initDiv.remove();
             mainDiv.show();
@@ -213,7 +214,8 @@ $(function() {
     var disableRand = function() {
         skipBtn.css('display', 'none');
         setupBtn.css('display', 'none');
-        patrBtn.css('left', '6px');
+        immrBtn.css('left', '6px');
+        patrBtn.css('left', '38px');
     }
     
     var setFilter = function(obj, filter) {

@@ -5,6 +5,7 @@
         <link rel="stylesheet" type="text/css" href="static/css/main.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script src="http://connect.soundcloud.com/sdk.js"></script>
+        <script src="static/js/jquery.fullscreen-min.js"></script>
         <script src="static/js/soundmanager2-nodebug.js"></script>
         <script src="static/js/svg.min.js"></script>
         <script src="static/js/vybemachine.js"></script>
@@ -26,6 +27,7 @@
             </div>
             <img id="skipbtn" src="static/img/skip.png" onclick="soundManager.stopAll()"/>
             <img class="widgetbtn" id="setupbtn" src="static/img/settings.png"/>
+            <img class="widgetbtn" id="immersebtn" src="static/img/immerse.png" onclick="$(document).toggleFullScreen()"/>
             <a target="_blank" href="https://www.patreon.com/phanta"><img class="widgetbtn" id="patreonbtn" src="static/img/patreon.png"/></a>
             <div id="pausescrn"><img src="static/img/pause.png"/></div>
         </div>
