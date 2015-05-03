@@ -200,7 +200,7 @@ p {
     margin: auto;
 }
 
-#setupbtn {
+.widgetbtn {
     position: fixed;
     width: 24px;
     top: 6px;
@@ -208,6 +208,10 @@ p {
     opacity: 0.18;
 }
 
-#setupbtn:hover {
+#patreonbtn {
+    left: 36px;
+}
+
+.widgetbtn:hover {
     opacity: 0.28;
 }
