@@ -143,7 +143,7 @@ $(function() {
             setTimeout(function() {retryArtworkUpdate(track);}, 3000);
         }
         currentSound = SC.stream("/tracks/" + track.id, function(sound) {
-            sound.play({onfinish: function() {this.destruct(); mainDiv.fadeTo(1200, 0);}, onstop: function() {this.destruct(); mainDiv.fadeTo(1200, 0);}, whileplaying: function() {if (useVis) updateEq(this); updateVol(this);}});
+            sound.play({onfinish: function() {this.destruct(); mainDiv.fadeTo(1200, 0);}, onstop: function() {this.destruct(); mainDiv.fadeTo(1200, 0);}, whileplaying: function() {updateEq(this); updateVol(this);}});
         });
         trackLink.attr('href', track.permalink_url);
         document.title = track.user.username + " - " + track.title;
@@ -160,7 +160,7 @@ $(function() {
             setTimeout(function() {retryArtworkUpdate(track);}, 3000);
         }
         currentSound = SC.stream("/tracks/" + track.id, function(sound) {
-            sound.play({onfinish: function() {this.destruct(); nextTrack();}, onstop: function() {this.destruct(); nextTrack();}, whileplaying: function() {if (useVis) updateEq(this); updateVol(this);}});
+            sound.play({onfinish: function() {this.destruct(); nextTrack();}, onstop: function() {this.destruct(); nextTrack();}, whileplaying: function() {updateEq(this); updateVol(this);}});
         });
         trackLink.attr('href', track.permalink_url);
         document.title = track.user.username + " - " + track.title;
@@ -198,19 +198,21 @@ $(function() {
     }
     
     var updateEq = function(theSound) {
-        try {
-            var w = jDoc.width();
-            var pos = w / 128;
-            var h = jDoc.height();
-            var left = theSound.eqData.left;
-            var right = theSound.eqData.right;
-            for (var i = 0; i < 128; i++) {
-                eqTop[i].size(w * 0.006, 56 * left[256 - (i * 2)]).move(i * pos, 0);
-                eqBot[i].size(w * 0.006, 56 * right[i * 2]).move((i * pos) + (pos / 4), h - (56 * right[i * 2]));
+        if (useVis) {
+            try {
+                var w = jDoc.width();
+                var pos = w / 128;
+                var h = jDoc.height();
+                var left = theSound.eqData.left;
+                var right = theSound.eqData.right;
+                for (var i = 0; i < 128; i++) {
+                    eqTop[i].size(w * 0.006, 56 * left[256 - (i * 2)]).move(i * pos, 0);
+                    eqBot[i].size(w * 0.006, 56 * right[i * 2]).move((i * pos) + (pos / 4), h - (56 * right[i * 2]));
+                }
+                setFilter(artworkDiv, 'blur(' + (24 + (Math.floor(7 * left[0]))) + 'px)');
             }
-            setFilter(artworkDiv, 'blur(' + (24 + (Math.floor(7 * left[0]))) + 'px)');
+            catch (ex) { console.log(ex); }
         }
-        catch (ex) { console.log(ex); }
     }
     
     var prepareSvg = function() {

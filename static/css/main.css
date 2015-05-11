@@ -206,6 +206,7 @@ p {
     top: 6px;
     left: 6px;
     opacity: 0.18;
+    cursor: pointer;
 }
 
 #patreonbtn {
