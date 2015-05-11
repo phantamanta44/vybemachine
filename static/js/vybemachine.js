@@ -5,6 +5,7 @@ $(function() {
     var isMobile = false;
     var currentSound;
     var useVis = false;
+    var hasResetVis = true;
     
     var QUERY_VAL = ["trap", "edm", "dubstep", "glitchhop", "dance", "trance", ""];
     var QUERY_TAG = "edm";
@@ -199,6 +200,7 @@ $(function() {
     
     var updateEq = function(theSound) {
         if (useVis) {
+            hasResetVis = false;
             try {
                 var w = jDoc.width();
                 var pos = w / 128;
@@ -213,6 +215,16 @@ $(function() {
             }
             catch (ex) { console.log(ex); }
         }
+        else if (!hasResetVis)
+            resetVis();
+    }
+    
+    var resetVis = function() {
+        for (var i = 0; i < 128; i++) {
+            eqTop[i].size(0);
+            eqBot[i].size(0);
+        }
+        hasResetVis = true;
     }
     
     var prepareSvg = function() {
