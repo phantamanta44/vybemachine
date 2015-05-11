@@ -209,11 +209,15 @@ p {
 }
 
 #patreonbtn {
-    left: 68px;
+    left: 98px;
 }
 
 #immersebtn {
     left: 36px;
+}
+
+#visbtn {
+    left: 68px;
 }
 
 .widgetbtn:hover {

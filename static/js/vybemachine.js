@@ -4,6 +4,7 @@ $(function() {
     var paused = false;
     var isMobile = false;
     var currentSound;
+    var useVis = false;
     
     var QUERY_VAL = ["trap", "edm", "dubstep", "glitchhop", "dance", "trance", ""];
     var QUERY_TAG = "edm";
@@ -31,6 +32,7 @@ $(function() {
     var setupBtn = $(document.getElementById('setupbtn'));
     var patrBtn = $(document.getElementById('patreonbtn'));
     var immrBtn = $(document.getElementById('immersebtn'));
+    var visBtn = $(document.getElementById('visbtn'));
     var pauseDiv = $(document.getElementById('pausescrn'));
     var hash = document.location.hash.replace('#', '');
     
@@ -63,10 +65,12 @@ $(function() {
         if (isMobile) {
             setupBtn.css('display', 'none');
             immrBtn.css('display', 'none');
+            visBtn.css('display', 'none');
             patrBtn.css('display', 'none');
         }
         $(document).keypress(pauseMe);
         setupBtn.click(showSetup);
+        visBtn.click(function() {useVis = !useVis;});
     };
     
     var init = function() {
@@ -139,7 +143,7 @@ $(function() {
             setTimeout(function() {retryArtworkUpdate(track);}, 3000);
         }
         currentSound = SC.stream("/tracks/" + track.id, function(sound) {
-            sound.play({onfinish: function() {this.destruct(); mainDiv.fadeTo(1200, 0);}, onstop: function() {this.destruct(); mainDiv.fadeTo(1200, 0);}, whileplaying: function() {updateEq(this); updateVol(this);}});
+            sound.play({onfinish: function() {this.destruct(); mainDiv.fadeTo(1200, 0);}, onstop: function() {this.destruct(); mainDiv.fadeTo(1200, 0);}, whileplaying: function() {if (useVis) updateEq(this); updateVol(this);}});
         });
         trackLink.attr('href', track.permalink_url);
         document.title = track.user.username + " - " + track.title;
@@ -156,7 +160,7 @@ $(function() {
             setTimeout(function() {retryArtworkUpdate(track);}, 3000);
         }
         currentSound = SC.stream("/tracks/" + track.id, function(sound) {
-            sound.play({onfinish: function() {this.destruct(); nextTrack();}, onstop: function() {this.destruct(); nextTrack();}, whileplaying: function() {updateEq(this); updateVol(this);}});
+            sound.play({onfinish: function() {this.destruct(); nextTrack();}, onstop: function() {this.destruct(); nextTrack();}, whileplaying: function() {if (useVis) updateEq(this); updateVol(this);}});
         });
         trackLink.attr('href', track.permalink_url);
         document.title = track.user.username + " - " + track.title;
@@ -292,7 +296,8 @@ $(function() {
     var disableRand = function() {
         setupBtn.css('display', 'none');
         immrBtn.css('left', '6px');
-        patrBtn.css('left', '38px');
+        visBtn.css('left', '36');
+        patrBtn.css('left', '68px');
     }
     
     var setFilter = function(obj, filter) {
